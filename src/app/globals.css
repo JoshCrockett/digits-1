@@ -1,11 +1,34 @@
+:root {
+  --nat-navbar-bg: #1d4d85;
+  --nat-navbar-bg-rgb: 236, 236, 236;
+  --nat-navbar-text-color: rgb(79, 74, 74);
+}
+
 html,
 body {
+  --bs-dark: var(--nat-navbar-bg);
   --bs-light-rgb: 236, 236, 236;
+  --bs-dark-rgb: var(--nat-navbar-bg-rgb);
   box-sizing: border-box;
   height: 100%;
   padding: 0;
   margin: 0;
+  background: fixed center url("/vysjorc9.png");
+  background-size: cover;
 }
+
+body .navbar {
+  --bs-navbar-active-color: var(--nat-navbar-highlight-text);
+  --bs-navbar-brand-color: var(--nat-navbar-text-color);
+  --bs-navbar-brand-hover-color: var(--nat-navbar-highlight-text);
+  --bs-navbar-color: var(--nat-navbar-text-color);
+  --bs-navbar-hover-color: var(--nat-navbar-highlight-text);
+}
+
+footer,footer a{
+  color: var(--nat-navbar-text-color);
+}
+
 .wrapper {
   box-sizing: border-box;
   min-height: 100%;
