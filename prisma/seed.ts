@@ -21,26 +21,45 @@ async function main() {
     });
     // console.log(`  Created user: ${user.email} with role: ${user.role}`);
   });
-  for (const data of config.defaultData) {
-    const condition = data.condition as Condition || Condition.good;
-    console.log(`  Adding stuff: ${JSON.stringify(data)}`);
-    // eslint-disable-next-line no-await-in-loop
-    await prisma.stuff.upsert({
+
+  const stuffPromises = config.defaultData.map((data) => {
+    const condition = (data.condition as Condition) || Condition.good; // Ensure the condition is valid enum
+    return prisma.stuff.upsert({
       where: { id: config.defaultData.indexOf(data) + 1 },
       update: {},
       create: {
         name: data.name,
-        quantity: data.quantity,
+       quantity: data.quantity,
         owner: data.owner,
         condition,
       },
     });
-  }
+  });
+});
+await Promise.all(stuffPromises);
+
+for (let index = 0; index < config.defaultContacts.length; index++) {
+  const contact = config.defaultContacts[index];
+  await prisma.contacts.upsert({
+    where: { id: index + 1 },
+    update: {},
+    create: {
+      firstName: contact.firstName,
+      lastName: contact.lastName,
+      address: contact.address,
+      image: contact.image,
+      description: contact.description,
+      owner: contact.owner,
+    },
+  });
 }
+
+
 main()
   .then(() => prisma.$disconnect())
   .catch(async (e) => {
-    console.error(e);
-    await prisma.$disconnect();
-    process.exit(1);
-  });
+      console.error(e);
+      await prisma.$disconnect();
+      process.exit(1);
+    });
+  }

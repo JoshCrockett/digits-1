@@ -1,16 +1,32 @@
-import { Stuff } from '@prisma/client';
-import Link from 'next/link';
+'use client';
+
+import { Card } from 'react-bootstrap';
+import Image from 'next/image';
 
 /* Renders a single row in the List Stuff table. See list/page.tsx. */
-const StuffItem = ({ name, quantity, condition, id }: Stuff) => (
-  <tr>
-    <td>{name}</td>
-    <td>{quantity}</td>
-    <td>{condition}</td>
-    <td>
-      <Link href={`/edit/${id}`}>Edit</Link>
-    </td>
-  </tr>
+type Contact = {
+  image: string;
+  firstName: string;
+  lastName: string;
+  address: string;
+  description: string;
+};
+
+const ContactCard = ({ contact }: { contact: Contact }) => (
+  <Card className="h-100">
+    <Card.Header>
+      <Image src={contact.image} width={75} height={75} alt={`${contact.firstName} ${contact.lastName}`} />
+      <Card.Title>
+        {contact.firstName}
+        &nbsp;
+        {contact.lastName}
+      </Card.Title>
+      <Card.Subtitle>{contact.address}</Card.Subtitle>
+    </Card.Header>
+    <Card.Body>
+      <Card.Text>{contact.description}</Card.Text>
+    </Card.Body>
+  </Card>
 );
 
-export default StuffItem;
+export default ContactCard;
